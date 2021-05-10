@@ -63,12 +63,10 @@ void WiggleScopeAudioProcessorEditor::sliderValueChanged(juce::Slider *slider)
     
     if      (slider == &numSampsToDraw)
     {
-        std::cout << (unsigned int) slider->getValue() << "\n";
         scope.setNumSamplesToDraw((unsigned int) slider->getValue());
     }
     else if (slider == &refreshRate)
-    {
-         std::cout << slider->getValue() << "\n";
+    {     
         scope.setRefreshRate(slider->getValue());
     }
     
