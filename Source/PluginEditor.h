@@ -10,11 +10,12 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include "WiggleScope.h"
 
 //==============================================================================
 /**
 */
-class WiggleScopeAudioProcessorEditor  : public juce::AudioProcessorEditor
+class WiggleScopeAudioProcessorEditor  : public juce::AudioProcessorEditor, public juce::Slider::Listener
 {
 public:
     WiggleScopeAudioProcessorEditor (WiggleScopeAudioProcessor&);
@@ -23,11 +24,15 @@ public:
     //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;
-
+    void sliderValueChanged (juce::Slider *slider) override;
 private:
-    // This reference is provided as a quick way for your editor to
-    // access the processor object that created it.
+    /// This reference is provided as a quick way for your editor to
+    /// access the processor object that created it.
     WiggleScopeAudioProcessor& audioProcessor;
-
+    WiggleScope scope;
+    
+    juce::Slider numSampsToDraw;
+    juce::Slider refreshRate;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WiggleScopeAudioProcessorEditor)
 };
