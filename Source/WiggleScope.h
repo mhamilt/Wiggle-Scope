@@ -1,49 +1,44 @@
 /*
-  ==============================================================================
-
-    WiggleScope.h
-    Created: 10 May 2021 8:50:07am
-    Author:  mhamilt7
-
-  ==============================================================================
-*/
-
-#pragma once
+ =============================================================================
+ 
+ WiggleScope.
+ Created: 10 May 2021 8:50:07a
+ Author:  mhamilt
+ 
+ =============================================================================
+ */
+#pragma onc
 
 #include <JuceHeader.h>
 
-//==============================================================================
-/*
-*/
-class WiggleScope  :
-public juce::Component,
-public juce::Timer
+//=============================================================================
 
+class WiggleScope : public juce::Component, public juce::Timer
 {
 public:
     WiggleScope();
     ~WiggleScope() override;
-
+    
     void paint (juce::Graphics&) override;
     void resized() override;
     void setup(juce::AudioBuffer<float>* currentBuffer, float sampRate);
     void setScopeBuffer(juce::AudioBuffer<float>* currentBuffer);
     void setSampleRate(float sampRate);
     void setRefreshRate(float refreshMs);
-    void setNumSamplesToDraw(unsigned int numSamps);    
+    void setNumSamplesToDraw(unsigned int numSamps);
     int getMaxNumSamplesToDraw();
     
 private:
     void timerCallback() override
-    {        
+    {
         repaint();
         if (adjustTimer)
         {
             stopTimer();
             startTimer(refreshRate);
             adjustTimer = false;
-        }        
-    }
+        }
+    };
     
 private:
     
@@ -58,7 +53,7 @@ private:
     bool triggerOn = true;
     
     
-    juce::Colour channelColour[8] =
+    juce::Colour channelColour[8]
     {
         juce::Colours::white,
         juce::Colours::red,
@@ -73,3 +68,4 @@ private:
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WiggleScope)
 };
+
