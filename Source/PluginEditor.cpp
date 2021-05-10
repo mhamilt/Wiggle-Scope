@@ -15,15 +15,13 @@ WiggleScopeAudioProcessorEditor::WiggleScopeAudioProcessorEditor (WiggleScopeAud
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (400, 300);
+    setSize (500, 300);
     
     scope.setup(audioProcessor.getLatestBuffer(), audioProcessor.getSampleRate());
     scope.setEnabled(true);
-    scope.setBounds(0, 0, 400, 300);
     addAndMakeVisible(scope);
     
     numSampsToDraw.setEnabled(true);
-    numSampsToDraw.setBounds(getWidth() - 210, getHeight() - 40, 200, 20);
     numSampsToDraw.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox,
                                    true, 0, 0);
     numSampsToDraw.setRange(63, scope.getMaxNumSamplesToDraw());
@@ -31,7 +29,7 @@ WiggleScopeAudioProcessorEditor::WiggleScopeAudioProcessorEditor (WiggleScopeAud
     addAndMakeVisible(numSampsToDraw);
     
     refreshRate.setEnabled(true);
-    refreshRate.setBounds(getWidth() - 210, getHeight() - 80, 200, 20);
+    
     refreshRate.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox,
                                    true, 0, 0);
     refreshRate.setRange(20, 100);
@@ -46,21 +44,19 @@ WiggleScopeAudioProcessorEditor::~WiggleScopeAudioProcessorEditor()
 //==============================================================================
 void WiggleScopeAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-
+    g.fillAll (juce::Colour(0xFF252525));
 }
 
 void WiggleScopeAudioProcessorEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
+    scope.setBounds(0, 0, 400, 300);
+    numSampsToDraw.setBounds(getWidth() - 95, 40, 90, 20);
+    refreshRate.setBounds(getWidth() - 95, 80, 90, 20);
 }
 
 
 void WiggleScopeAudioProcessorEditor::sliderValueChanged(juce::Slider *slider)
 {
-    
     if      (slider == &numSampsToDraw)
     {
         scope.setNumSamplesToDraw((unsigned int) slider->getValue());
