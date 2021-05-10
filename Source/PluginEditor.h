@@ -11,7 +11,7 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 #include "WiggleScope.h"
-
+#include "HookiltonLookAndFeel.h"
 //==============================================================================
 /**
 */
@@ -28,9 +28,9 @@ public:
 private:
     /// This reference is provided as a quick way for your editor to
     /// access the processor object that created it.
+    HookiltonLookAndFeel hookLook;
     WiggleScopeAudioProcessor& audioProcessor;
     WiggleScope scope;
-    
     juce::Slider numSampsToDraw;
     juce::Slider refreshRate;
     

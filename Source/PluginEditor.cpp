@@ -16,7 +16,7 @@ WiggleScopeAudioProcessorEditor::WiggleScopeAudioProcessorEditor (WiggleScopeAud
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setSize (500, 300);
-    
+    setLookAndFeel(&hookLook);
     scope.setup(audioProcessor.getLatestBuffer(), audioProcessor.getSampleRate());
     scope.setEnabled(true);
     addAndMakeVisible(scope);
@@ -26,6 +26,7 @@ WiggleScopeAudioProcessorEditor::WiggleScopeAudioProcessorEditor (WiggleScopeAud
                                    true, 0, 0);
     numSampsToDraw.setRange(63, scope.getMaxNumSamplesToDraw());
     numSampsToDraw.addListener(this);
+    numSampsToDraw.setSliderStyle(juce::Slider::SliderStyle::Rotary);
     addAndMakeVisible(numSampsToDraw);
     
     refreshRate.setEnabled(true);
@@ -34,24 +35,50 @@ WiggleScopeAudioProcessorEditor::WiggleScopeAudioProcessorEditor (WiggleScopeAud
                                    true, 0, 0);
     refreshRate.setRange(20, 100);
     refreshRate.addListener(this);
+    refreshRate.setSliderStyle(juce::Slider::SliderStyle::Rotary);
     addAndMakeVisible(refreshRate);
 }
 
 WiggleScopeAudioProcessorEditor::~WiggleScopeAudioProcessorEditor()
 {
+    setLookAndFeel (nullptr);
 }
 
 //==============================================================================
 void WiggleScopeAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    g.fillAll (juce::Colour(0xFF252525));
+    g.fillAll (juce::Colour(0xff4c5b5c).darker().darker());
+    juce::String timeDivLabel = juce::String("Time / Div");
+    g.setColour(juce::Colour(0xFF252525).contrasting());
+    g.drawFittedText(timeDivLabel,
+                     (getWidth() - 65) - g.getCurrentFont().getStringWidth(timeDivLabel) / 3,
+                     numSampsToDraw.getY() - 20,
+                     g.getCurrentFont().getStringWidth(timeDivLabel),
+                     g.getCurrentFont().getHeight(),
+                     juce::Justification::centred,
+                     1);
+    
+    
+    
+    juce::String rateLabel = juce::String("Rate");
+    g.drawFittedText(rateLabel,
+                     getWidth() - 65,
+                     refreshRate.getY() - 20,
+                     g.getCurrentFont().getStringWidth(rateLabel),
+                     g.getCurrentFont().getHeight(),
+                     juce::Justification::centred,
+                     1);
+    
+    g.setColour(juce::Colour(0xffe3655b).darker());
+    g.drawLine(400, numSampsToDraw.getBottom() + 8, 500, numSampsToDraw.getBottom() + 8);
+    g.drawLine(400, refreshRate.getBottom() + 8, 500, refreshRate.getBottom() + 8);
 }
 
 void WiggleScopeAudioProcessorEditor::resized()
 {
     scope.setBounds(0, 0, 400, 300);
-    numSampsToDraw.setBounds(getWidth() - 95, 40, 90, 20);
-    refreshRate.setBounds(getWidth() - 95, 80, 90, 20);
+    numSampsToDraw.setBounds(getWidth() - 65, 24, 26, 26);
+    refreshRate.setBounds(getWidth() - 65, 80, 26, 26);
 }
 
 

@@ -6,6 +6,10 @@
   <MAINGROUP id="SF9T8x" name="Wiggle-Scope">
     <GROUP id="{929BC729-D16D-3B05-47E6-DB84E24E8075}" name="Source">
       <GROUP id="{EB46504E-08E8-6D09-538C-F083F0851509}" name="Components">
+        <FILE id="pBpsWw" name="HookiltonLookAndFeel.cpp" compile="1" resource="0"
+              file="Source/HookiltonLookAndFeel.cpp"/>
+        <FILE id="Ky0mBC" name="HookiltonLookAndFeel.h" compile="0" resource="0"
+              file="Source/HookiltonLookAndFeel.h"/>
         <FILE id="WXMkso" name="WiggleScope.cpp" compile="1" resource="0" file="Source/WiggleScope.cpp"/>
         <FILE id="hBZ8s3" name="WiggleScope.h" compile="0" resource="0" file="Source/WiggleScope.h"/>
       </GROUP>
