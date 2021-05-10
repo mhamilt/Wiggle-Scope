@@ -55,6 +55,8 @@ private:
     float sampleRate = 44100.0f;
     juce::Path test;
     bool adjustTimer = false;
+    bool triggerOn = true;
+    
     
     juce::Colour channelColour[8] =
     {

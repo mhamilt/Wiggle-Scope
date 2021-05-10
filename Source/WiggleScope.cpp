@@ -29,7 +29,7 @@ void WiggleScope::paint (juce::Graphics& g)
     g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
     g.setColour (juce::Colours::yellow);
     g.setFont (10.0f);
-        
+    
     juce::Path grid;
     float gridThickness = 0.293;
     float numXlines = 8;
@@ -71,6 +71,9 @@ void WiggleScope::paint (juce::Graphics& g)
     
     if (scopeBuffer)
     {
+        
+        
+        
         juce::Path wave;
         float waveThickness = 1.0f;
         
@@ -84,10 +87,29 @@ void WiggleScope::paint (juce::Graphics& g)
             auto* audioInput = scopeBuffer->getReadPointer(0);
             float lastSample = 0.0f;
             
-            for (int i = 0 ; i < (numSamplesToDraw - drawSampleSkip); i += drawSampleSkip)
+            unsigned int startSample = 0;
+            
+            if(triggerOn)
             {
-                float fromY = -audioInput[i] * (midY * vertMargin);
-                float toY   = -audioInput[i + drawSampleSkip] * (midY * vertMargin);
+                while (true)
+                {
+                    if (audioInput[startSample] <= 0.0f && audioInput[startSample + 1] >= 0.0f)
+                        break;
+                    
+                    startSample++;
+                    
+                    if (startSample > maxNumSamplesToDraw - numSamplesToDraw)
+                    {
+                        startSample = 0;
+                        break;
+                    }
+                    
+                }
+            }
+            for (int i = 0 ; i < numSamplesToDraw; i += drawSampleSkip)
+            {
+                float fromY = -audioInput[i + startSample] * (midY * vertMargin);
+                float toY   = -audioInput[i + drawSampleSkip + startSample] * (midY * vertMargin);
                 
                 wave.addLineSegment(juce::Line<float>(i * xStep,
                                                       midY + fromY,
@@ -110,7 +132,7 @@ void WiggleScope::setup(juce::AudioBuffer<float>* currentBuffer, float sampRate)
 {
     setScopeBuffer(currentBuffer);
     setSampleRate(sampRate);
-
+    
 }
 
 
