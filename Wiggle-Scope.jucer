@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="zhtF9A" name="Wiggle-Scope" projectType="audioplug" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1">
+              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" companyName="Hookilton"
+              pluginManufacturerCode="Jhmh" pluginCode="scop">
   <MAINGROUP id="SF9T8x" name="Wiggle-Scope">
     <GROUP id="{929BC729-D16D-3B05-47E6-DB84E24E8075}" name="Source">
       <GROUP id="{EB46504E-08E8-6D09-538C-F083F0851509}" name="Components">
@@ -20,7 +21,7 @@
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
   <EXPORTFORMATS>
     <XCODE_MAC targetFolder="Builds/MacOSX" hardenedRuntime="1" hardenedRuntimeOptions="com.apple.security.device.audio-input"
-               microphonePermissionNeeded="1">
+               microphonePermissionNeeded="1" postbuildCommand="# For scp to work you'll need to set up a public / private ssh key pair and add it to your server's authorized_keys&#10;&#10;USERNAME=&quot;mhamilt7&quot;&#10;COPY_DEST=&quot;${HOME}/Desktop/${PROJECT}/&quot;&#10;&#10;if [[ $(whoami) == &quot;mhamilt7&quot; ]]; then # make sure it's you&#10;  if [[ $TARGET_NAME == *&quot;AU&quot;* ]]; then # Do this for Audio Units&#10;    # Delete AU Cache&#10;    echo &quot;Hello!&quot;&#10;    AU_CACHE_FILE=&quot;${HOME}/Library/Caches/AudioUnitCache/com.apple.audiounits.sandboxed.cache&quot;&#10;    [ ! -e $AU_CACHE_FILE ] || rm -f $AU_CACHE_FILE;&#10;    # Code sign your AU&#10;    codesign --force -s &quot;Developer ID Application: Matthew Hamilton (XZ388CS8AV)&quot; &quot;${HOME}/Library/Audio/Plug-Ins/Components/${FULL_PRODUCT_NAME}&quot; -v --timestamp;&#10;&#10;    [ -d $COPY_DEST ] || mkdir &quot;${HOME}/Desktop/${PROJECT}/&quot;;&#10;    cp -r &quot;${HOME}/Library/Audio/Plug-Ins/Components/${FULL_PRODUCT_NAME}&quot; &quot;${HOME}/Desktop/${PROJECT}/&quot;&#10;&#10;    if [[$CONFIGURATION == &quot;Release&quot;]]; then&#10;      scp -r &quot;${HOME}/Library/Audio/Plug-Ins/Components/${FULL_PRODUCT_NAME}/&quot; ladmin@BigglesServer.local:${HOME}/Library/Audio/Plug-Ins/Components/&#10;    fi&#10;  elif [[ $TARGET_NAME == *&quot;VST&quot;* ]]; then # Do this for Audio Units&#10;    # Code sign your VST&#10;    codesign --force -s &quot;Developer ID Application: Matthew Hamilton (XZ388CS8AV)&quot; &quot;${HOME}/Library/Audio/Plug-Ins/VST3/${FULL_PRODUCT_NAME}&quot; -v --timestamp;&#10;    # Copy to another machine on your network&#10;    [ -d $COPY_DEST ] || mkdir &quot;${HOME}/Desktop/${PROJECT}/&quot;;&#10;    cp -r &quot;${HOME}/Library/Audio/Plug-Ins/VST3/${FULL_PRODUCT_NAME}&quot; &quot;${HOME}/Desktop/${PROJECT}/&quot;&#10;    if [[$CONFIGURATION == &quot;Release&quot;]]; then&#10;      scp -r &quot;${HOME}/Library/Audio/Plug-Ins/VST3/${FULL_PRODUCT_NAME}&quot; ladmin@BigglesServer.local:${HOME}/Library/Audio/Plug-Ins/VST3/&#10;    fi&#10;&#10;  fi&#10;fi&#10;&#10;">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" targetName="Wiggle-Scope"/>
         <CONFIGURATION isDebug="0" name="Release" targetName="Wiggle-Scope"/>
